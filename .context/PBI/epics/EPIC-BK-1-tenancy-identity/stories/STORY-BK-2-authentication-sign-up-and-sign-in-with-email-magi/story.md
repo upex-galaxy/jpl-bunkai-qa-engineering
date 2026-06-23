@@ -151,10 +151,18 @@ For Design (2):
 
 ---
 
+## Traceability
+
+### Historia (1)
+
+- [BK-166](https://jira.upexgalaxy.com/browse/BK-166): Authentication | Sign up and sign in with email and password _(Ready For QA)_
+
+---
+
 ## Metadata
 
 - **Created:** 19/5/2026
-- **Updated:** 8/6/2026
+- **Updated:** 21/6/2026
 - **Reporter:** Ely
 - **Assignee:** Ely
 - **Labels:** auth, mvp, shift-left-2026-05-25, shift-left-reviewed, wave-1

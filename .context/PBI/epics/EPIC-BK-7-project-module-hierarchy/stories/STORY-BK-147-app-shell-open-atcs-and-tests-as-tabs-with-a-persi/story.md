@@ -3,9 +3,9 @@
 **Jira Key:** [BK-147](https://jira.upexgalaxy.com/browse/BK-147)
 **Epic:** [BK-7](https://jira.upexgalaxy.com/browse/BK-7) (Project & Module Hierarchy)
 **Type:** Historia
-**Status:** En curso
+**Status:** Ready For QA
 **Priority:** Highest
-**Story Points:** 1
+**Story Points:** 5
 
 ---
 

@@ -3,9 +3,9 @@
 **Jira Key:** [BK-36](https://jira.upexgalaxy.com/browse/BK-36)
 **Epic:** [BK-30](https://jira.upexgalaxy.com/browse/BK-30) (Manual Execution & Runs)
 **Type:** Historia
-**Status:** Estimation
+**Status:** Ready For Dev
 **Priority:** Medium
-**Story Points:** 1
+**Story Points:** 8
 **Web Link:** https://staging-upexbunkai.vercel.app/
 
 ---
@@ -41,6 +41,7 @@
 - [Scope](./scope.md)
 - [Out Of Scope](./out-of-scope.md)
 - [Workflow](./workflow.md)
+- [Acceptance Test Plan (QA)](./acceptance-test-plan.md)
 
 ---
 
@@ -48,16 +49,17 @@
 
 ### Historia (1)
 
-- [BK-34](https://jira.upexgalaxy.com/browse/BK-34): TMS-Run Execution | Start a manual run in a chosen environment _(Ready For Dev)_
+- [BK-34](https://jira.upexgalaxy.com/browse/BK-34): TMS-Run Execution | Start a manual run in a chosen environment _(QA Approved)_
 
 ---
 
 ## Metadata
 
 - **Created:** 28/5/2026
-- **Updated:** 10/6/2026
+- **Updated:** 23/6/2026
 - **Reporter:** Ely
-- **Assignee:** Juan Leites
+- **Assignee:** Ely
+- **Labels:** shift-left-2026-06-23, shift-left-reviewed
 
 ---
 

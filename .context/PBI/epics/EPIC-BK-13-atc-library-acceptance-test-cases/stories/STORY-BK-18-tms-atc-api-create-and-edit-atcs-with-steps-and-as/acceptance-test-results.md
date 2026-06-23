@@ -10,73 +10,70 @@
 
 ## Description
 
-## BK-18 — Acceptance Test Results (ATR)
+# ATR — BK-18: ATC create/edit REST API (re-run 2026-06-20)
 
-> ***ERROR:**** ****Result******:****** FAILED**** — 12 of 13 scenarios PASSED (92%). One happy-path scenario (H2 — PATCH `/atcs/{id}` with a correct `If-Match`) returns ****HTTP 412**** instead of ****200****, failing the acceptance criterion "PATCH returns 200 with version 2". Story is NOT sign-off-able until the response status is corrected. Defect filed: ****BK-96***.
-
-| Field | Value |
-| --- | --- |
-| Tested | 2026-06-08 |
-| Environment | Staging (`https://staging-upexbunkai.vercel.app/api/v1`) |
-| Tester | elyermad@gmail.com |
-| Result | ***FAILED*** (12/13) |
-| Surfaces | API + DB (no UI — UI is BK-19) |
-| Auth | openapi-testing PAT, scope `atc:write` (read-only PAT for the scope-gate negative) |
+> ***SUCCESS:**** ****Verdict******:****** PASSED (GO).**** 12 / 12 test cases passed. The previously blocking defect ****BK-96 is verified fixed end-to-end***. No open defects. BK-18 is recommended for QA sign-off.
 
 ## Summary
 
-Exercised the ATC create/edit REST API (`POST /api/v1/atcs`, `PATCH /api/v1/atcs/{id}`) on staging across 13 scenarios (2 happy, 7 negative, 2 boundary, 2 integration) plus a transactional-integrity DB sweep. The smoke check passed (201, DB-verified). All authorization, validation, anchoring-moat (AC-to-US, module-to-subtree), transactional-rollback, optimistic-lock-conflict and boundary paths behave correctly. The single failure is the happy-path PATCH success response: the update commits correctly server-side but the client receives a `412 PRECONDITION_FAILED` platform error page instead of the documented `200` success body.
+| Field | Value |
+| --- | --- |
+| Story | BK-18 — ATC create/edit REST API (POST/PATCH /atcs) |
+| Test Plan (ATP) | BK-94 |
+| Test Execution (ATR) | BK-95 (this issue) |
+| Modality | jira-xray |
+| Environment | Staging — `https://staging-upexbunkai.vercel.app/api/v1` |
+| Auth | Bearer PAT scope `atc:write` (openapi-testing) |
+| Surfaces | API + DB (no UI — UI is BK-19) |
+| Date | 2026-06-20 |
+| Result | ***12 / 12 PASSED*** |
 
-## Test Cases
+## Why this re-run
 
-| ID | Scenario | Expected | Actual | Status |
-| --- | --- | --- | --- | --- |
-| H1 (smoke) | Happy POST `/atcs` | 201, v1, 3 steps / 2 assertions, `atc.created` | 201, v1, slug valid, DB rows + event verified | PASSED |
-| H2 | Happy PATCH `/atcs/{id}` `If-Match:1`, 2 steps / no assertions | 200, v2, 2 steps / 0 assertions, `atc.updated` | ***412 PRECONDITION******_******FAILED**** to client; DB committed (v2, 2 steps, 0 assertions, `atc.updated`) | ****FAILED*** |
-| N1 | POST no Authorization | 401 unauthorized | 401 `unauthorized` | PASSED |
-| N2 | POST read-only token | 403 forbidden | 403 `forbidden` "Missing required capability: atc:write" | PASSED |
-| N3 | PATCH non-existent id | 404 not*found | 404 `not*found` | PASSED |
-| N4 | POST cross-US AC | 422 `ac*outside*user*story` + rollback | 422 `ac*outside*user*story`; zero new rows (rollback verified) | PASSED |
-| N5 | POST cross-project module | 422 `module*outside*project*subtree` | 422 `module*outside*project*subtree` | PASSED |
-| N6 | POST steps `[1,3,2]` | 422 `steps*position*invalid` + offenders | 422 `steps*position*invalid`, `positions:[2]` | PASSED |
-| N7 | POST steps `[2,3,4]` | 422 `steps*position*invalid` | 422 `steps*position*invalid`, `positions:[2]` | PASSED |
-| N8 | PATCH stale `If-Match:1` (ATC at v2) | 409 conflict + current version | 409 `conflict`, `current_version:2` | PASSED |
-| B1 | POST title "AB" | 422 validation*failed | 422 `validation*failed` (title too_small) | PASSED |
-| B2 | POST steps `[]` | 422 validation*failed | 422 `validation*failed` (steps min 1) | PASSED |
-| I1 | POST invalid bearer | 401 before DB | 401 `unauthorized` "Invalid token"; zero DB writes | PASSED |
+BK-18 was previously tested (2026-06-08) and blocked by ***BK-96**** (happy PATCH returned 412 instead of 200). BK-96 was fixed (PR #30, commit `421a917`) and Closed, but its retest was ****code-review only*** — no E2E API verification was possible at the time (the QA user had no ATCs). This re-run re-verifies the whole story with refactored, parametrized coverage and closes the E2E verification gap on the fix.
 
-***Tally******:****** 12 PASSED / 1 FAILED / 13 total — 92% pass rate.***
+## Results matrix
 
-## Defect — H2 (PATCH happy path returns 412)
+| TC | Xray | Scenario | Result |
+| --- | --- | --- | --- |
+| TC01 | BK-149 | POST happy create → 201 (layer UI/API/Unit) | PASSED |
+| TC02 | BK-150 | Auth/scope gate (401 / 401 / 403) | PASSED |
+| TC03 | BK-151 | AC outside US → 422 `ac*outside*user_story` + rollback | PASSED |
+| TC04 | BK-152 | Module outside subtree → 422 `module*outside*project_subtree` + rollback | PASSED |
+| TC05 | BK-153 | Step positions invalid (parametrized) → 422 `steps*position*invalid` | PASSED |
+| TC06 | BK-154 | Request boundaries BVA (title / steps / tags / layer) | PASSED |
+| TC07 | BK-155 | Transactional rollback (DB-count invariant) | PASSED |
+| TC08 | BK-156 | ***PATCH happy X-If-Match → 200 (BK-96 regression)*** | PASSED |
+| TC09 | BK-157 | Optimistic lock X-If-Match (match / stale / absent) | PASSED |
+| TC10 | BK-158 | PATCH non-existent → 404 `not_found` | PASSED |
+| TC11 | BK-159 | PATCH empty-body no-op → 200, no version bump | PASSED |
+| TC12 | BK-160 | Immutable fields (slug / US / module) preserved | PASSED |
 
-> ***WARNING:**** `PATCH /api/v1/atcs/{id}` with the ****correct**** `If-Match: 1` (ATC at version 1) returns ****HTTP 412 PRECONDITION*************FAILED**** (non-JSON platform error page) instead of ****200***. The update nonetheless commits fully server-side: version 1 → 2, title updated, steps cascade-replaced (3 → 2), assertions cleared (2 → 0), and an `atc.updated` row written to `activity*log`. N8 independently corroborates the version advanced to 2 (it returned 409 with `current_version: 2`). A contract-following client sees a successful edit as a failure and may retry, causing a double-apply or a 409.
+## BK-96 regression — fix verified
 
-- ***Severity****: Major. ****Blocking***: No (no data corruption, no security exposure; persistence is correct).
-- ***Root-cause candidates***: (a) the `If-Match` precondition handler in `app/api/v1/atcs/[id]/route.ts` mis-evaluates a matching version as a precondition failure (or compares against the post-increment version); (b) Vercel edge intercepts the `If-Match` request header and returns 412 around the function.
-- ***Downstream impact***: blocks BK-19 (ATC builder UI) and BK-21 / BK-23, which PATCH ATCs.
-- ***Defect ticket****: ****BK-96***.
-- ***Evidence***: `evidence/h2-patch-412-bug.md`, `evidence/h2-patch-response.json`, `evidence/db-final.txt`.
+The fix moved the optimistic-lock version token from the standard `If-Match` header to a custom `X-If-Match` header, because Vercel's edge intercepts RFC-7232 `If-Match` and returns a `412 PRECONDITION_FAILED` platform page before the function result is returned (the mutation still commits at origin). Verified on staging:
 
-## DB Integrity
+| Request | Result |
+| --- | --- |
+| `PATCH X-If-Match: <current>` (matching) | ***200*** `application/json`, `x-request-id`, version +1, steps cascade-replaced, `atc.updated` logged |
+| `PATCH X-If-Match: <stale>` | 409 `conflict` + `details.current_version` |
+| `PATCH` (no `X-If-Match`) | 200, lock skipped |
+| `PATCH If-Match: <current>` (legacy) | 412 `x-vercel-error` (documented edge limitation; not the contract) |
 
-All transactional checks PASSED: baseline counts zero; smoke persistence exact (1/3/2/1 + `atc.created`); H2 persistence exact despite the 412; N4 rollback left zero residue; `activity*log` held exactly the two expected events; the `atcs*project*id*slug*key` UNIQUE (project*id, slug) constraint is present; cleanup cascaded with zero orphan steps/assertions. The transactional boundary and validate-before-commit guarantee hold solidly.
+## DB integrity (DBHub, staging)
 
-## Test Data
+- True-zero baseline (0/0/0) before run; each created ATC produced exactly one `atc.created` event (1:1, scoped).
+- Transactional rollback verified: a 422 cross-entity POST left counts unchanged (8/16/8) — zero rows across `atcs` / `atc*steps` / `atc*assertions`.
+- Cleanup: all test ATCs deleted post-run → 0/0/0, no orphan children. `activity_log` history retained (audit).
 
-- Project: "Openapi Test Project" (`269850ea-a759-44a1-a45e-3a6187cac5ec`)
-- User story: FSX-45 (`b1f68acf-855a-4320-95f0-e81df5e948c3`), happy path uses AC1
-- Modules: "Credit Cards" (`8da2b639-...`), "Billing" (`e4e42a7d-...`)
-- Cross-subtree negative module: project "BK-9 Module Test Project"
+## Observations (non-blocking)
 
-## Observations
+- `affected*test*ids` returns `null` where the MVP contract documented `[]`. Minor — recommend dev confirm the intended empty representation.
+- Legacy `If-Match` header remains edge-intercepted (412) on Vercel; the working optimistic-lock contract is `X-If-Match`. Documented in ATP BK-94.
 
-- Response returns `assertions[].position` (auto-assigned 1,2) even though POST sends `{content}` only — server assigns position; matches `validation.ts`. Non-issue.
-- `affected*test*ids` could not be observed on H2 (412 returned an error page, not the success body); per contract it is `[]` in MVP. Re-verify once BK-96 is fixed.
-- N3's 404 collapses three not-found causes into one coarse message — acceptable; worth a doc note, not a bug.
+## Traceability
 
-## Recommendation
-
-Do NOT QA Sign-Off until BK-96 (H2 status-code defect) is fixed and H2 re-runs green. The 12 passing scenarios are eligible for ROI evaluation in Stage 4.
+Story BK-18 ← **is tested by** ← TC01–TC12 (BK-149…BK-160), all in Test Plan BK-94 and executed under Test Execution BK-95 with shared Pre-Condition BK-161. Defect BK-96 (Closed) permanently covered by TC08 + TC09.
 
 ---
 
@@ -89,7 +86,7 @@ Do NOT QA Sign-Off until BK-96 (H2 status-code defect) is fixed and H2 re-runs g
 ## Metadata
 
 - **Created:** 8/6/2026
-- **Updated:** 8/6/2026
+- **Updated:** 20/6/2026
 - **Reporter:** Ely
 - **Assignee:** Unassigned
 

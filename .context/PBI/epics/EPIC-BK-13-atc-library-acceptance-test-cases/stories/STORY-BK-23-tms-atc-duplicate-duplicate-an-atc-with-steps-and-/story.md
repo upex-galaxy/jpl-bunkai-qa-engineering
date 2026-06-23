@@ -3,7 +3,7 @@
 **Jira Key:** [BK-23](https://jira.upexgalaxy.com/browse/BK-23)
 **Epic:** [BK-13](https://jira.upexgalaxy.com/browse/BK-13) (ATC Library (Acceptance Test Cases))
 **Type:** Historia
-**Status:** Ready For Dev
+**Status:** Ready For QA
 **Priority:** Medium
 **Story Points:** 5
 **Web Link:** https://staging-upexbunkai.vercel.app/
@@ -43,16 +43,20 @@
 
 ## Traceability
 
+### Error (1)
+
+- [BK-175](https://jira.upexgalaxy.com/browse/BK-175): Auth: Login: Magic-link OTP email has no code-entry field on staging _(Abierta)_
+
 ### Historia (1)
 
-- [BK-18](https://jira.upexgalaxy.com/browse/BK-18): TMS-ATC API | Create and edit ATCs with steps and assertions _(In Test)_
+- [BK-18](https://jira.upexgalaxy.com/browse/BK-18): TMS-ATC API | Create and edit ATCs with steps and assertions _(QA Approved)_
 
 ---
 
 ## Metadata
 
 - **Created:** 19/5/2026
-- **Updated:** 8/6/2026
+- **Updated:** 22/6/2026
 - **Reporter:** Ely
 - **Assignee:** Benjamin Segovia
 - **Labels:** atc, clone, mvp, wave-2

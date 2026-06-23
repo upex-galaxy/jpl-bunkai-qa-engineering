@@ -141,7 +141,7 @@ Scenario: Expanded read returns full chain in one round trip
 ### Historias (2)
 
 - [BK-27](https://jira.upexgalaxy.com/browse/BK-27): TMS-Test Builder | Assemble a test by chaining ATCs _(QA Approved)_
-- [BK-147](https://jira.upexgalaxy.com/browse/BK-147): App Shell | Open ATCs and Tests as tabs with a persistent explorer _(En curso)_
+- [BK-147](https://jira.upexgalaxy.com/browse/BK-147): App Shell | Open ATCs and Tests as tabs with a persistent explorer _(Ready For QA)_
 
 ---
 

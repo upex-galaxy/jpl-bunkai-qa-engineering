@@ -3,7 +3,7 @@
 **Jira Key:** [BK-33](https://jira.upexgalaxy.com/browse/BK-33)
 **Epic:** [BK-24](https://jira.upexgalaxy.com/browse/BK-24) (Tests (chains of ATCs))
 **Type:** Historia
-**Status:** Ready For Dev
+**Status:** QA Approved
 **Priority:** Medium
 **Story Points:** 8
 **Web Link:** https://staging-upexbunkai.vercel.app/
@@ -115,9 +115,9 @@ Ready for Estimation after PO confirms the MVP reserved tag vocabulary and accep
 ## Metadata
 
 - **Created:** 28/5/2026
-- **Updated:** 8/6/2026
+- **Updated:** 22/6/2026
 - **Reporter:** Ely
-- **Assignee:** Ely
+- **Assignee:** jesusgpythondev
 - **Labels:** bk-70-child, shift-left-2026-06-06, shift-left-reviewed, test-tags, tms
 
 ---

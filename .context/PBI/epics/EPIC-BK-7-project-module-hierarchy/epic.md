@@ -3,7 +3,7 @@
 **Jira Key:** [BK-7](https://jira.upexgalaxy.com/browse/BK-7)
 **Priority:** Medium
 **Status:** Planificación
-**Total Story Points:** 28
+**Total Story Points:** 33
 
 ---
 
@@ -110,7 +110,8 @@ See per-story `story.md` for Gherkin acceptance criteria.
 | [BK-10](https://jira.upexgalaxy.com/browse/BK-10) | TMS-Module | Rename and soft-delete a module | 2 | Medium | QA Approved |
 | [BK-11](https://jira.upexgalaxy.com/browse/BK-11) | TMS-Module | Move a module to a different parent | 3 | Medium | QA Approved |
 | [BK-98](https://jira.upexgalaxy.com/browse/BK-98) | TMS-Projects | Switch between Tree, Table & Mind map views in a hardened explorer | 1 | Medium | QA Approved |
-| [BK-147](https://jira.upexgalaxy.com/browse/BK-147) | App Shell | Open ATCs and Tests as tabs with a persistent explorer | 1 | Highest | En curso |
+| [BK-147](https://jira.upexgalaxy.com/browse/BK-147) | App Shell | Open ATCs and Tests as tabs with a persistent explorer | 5 | Highest | Ready For QA |
+| [BK-148](https://jira.upexgalaxy.com/browse/BK-148) | TMS-Project Environments | List, add, rename and remove environments | 1 | Medium | Ready For QA |
 
 ---
 
