@@ -434,3 +434,59 @@ Self-check after every task: *did I make decision, fix bug, learn something non-
 ---
 
 *AI persistent memory. Update when behaviors / skills / rules change.*
+
+---
+
+## Project Assessment (Phase 1) — upex-bunkai-tms (Bunkai TMS)
+
+Assessment Date: 2026-06-19
+Target repo: `c:/Projects/UPEX/upex-bunkai-tms/`
+
+### Testing Maturity: 0/4
+- Current state: **None**
+- Test files found: 0
+- Test directories: none (`tests/`, `__tests__/`, `e2e/`, `spec/` all absent)
+- Test runner: none (no Jest, Vitest, or Playwright in devDependencies)
+- Coverage: 0%
+
+### Documentation State: Good
+- README: Yes (agentic-dev-boilerplate base — product-specific content in DESIGN.md, CONTEXT.md)
+- DESIGN.md: Yes — detailed brand, color, component spec (Bunkai-specific)
+- CONTEXT.md: Yes — context engineering map
+- Architecture: Partial — in `.context/SRS/architecture-specs.md` (referenced but discovery-scope)
+- Setup guide: Yes (INSTALLER.md)
+- `/qa` page: Yes — in-app testability guide at `app/qa/`
+
+### Code Quality
+- [x] ESLint: configured (`eslint.config.js`, `@antfu/eslint-config`)
+- [x] Prettier: configured
+- [x] TypeScript: `strict: true` in `tsconfig.json`
+- [x] Pre-commit hooks: Husky + lint-staged (lint + format on commit)
+- [ ] Test coverage: 0% — no runner configured
+
+### CI/CD Maturity: None
+- No `.github/workflows/` directory found
+- Deployment: Vercel (inferred from `.env.example` Vercel+Supabase hints)
+- No automated test pipeline
+
+### Identified Risks
+
+| Risk | Severity | Mitigation |
+|------|----------|------------|
+| No tests of any kind | HIGH | Priority 1 — add Playwright E2E + API integration tests |
+| No CI pipeline | HIGH | Configure GitHub Actions with lint + typecheck + test jobs |
+| No test runner in devDeps | HIGH | Install Playwright (via QA boilerplate `/adapt-framework`) |
+| Env var naming inconsistency (`NEXT_PUBLIC_SUPABASE_ANON_KEY` vs `SUPABASE_PUBLISHABLE_KEY`) | MEDIUM | Confirm canonical name; update `lib/env.ts` or `.env.example` |
+| Staging/production URLs unknown | MEDIUM | Get from Vercel dashboard; update `.agents/project.yaml` environments |
+| `runs` entity missing (DESIGN.md references RUN-XXX) | MEDIUM | Likely future migration; gap may block test-run automation |
+
+### Phase Prioritization
+
+- Phase 1: **Normal** — constitution complete from code analysis
+- Phase 2: **Normal** — PRD/SRS discoverable from migrations + routes + DESIGN.md
+- Phase 3: **Extended** — no CI to read from; infrastructure partially inferred
+- Phase 4: **Normal** — Jira credentials configured in `.env`
+
+### Blockers
+- [ ] Env var inconsistency to resolve before `/adapt-framework` runs `bun run api:sync`
+- [ ] Staging URL needed to populate `.agents/project.yaml` environments.staging.web_url

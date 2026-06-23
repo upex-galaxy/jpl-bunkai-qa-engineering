@@ -70,3 +70,77 @@ Custom-field content (ACs, ATP/ATR, scope, business rules, comments) is **only**
 - **Prefix**: Jira project key — `{{PROJECT_KEY}}-` (declared in `.agents/project.yaml`).
 - **Names**: kebab-case for file names; `EPIC-` / `STORY-` / `DEFECT-` prefixes on folders per the canonical tree.
 - **Evidence**: `evidence/` holds ephemeral screenshots/logs (gitignored).
+
+---
+
+## Project BK — Bunkai TMS (configured)
+
+> Discovery date: 2026-06-19
+
+| Setting | Value |
+|---------|-------|
+| Project Key | `BK` |
+| Jira URL | https://upexgalaxy69.atlassian.net/ |
+| CLI | `acli` |
+| TMS CLI | `bun xray` |
+| Default env | `local` (http://localhost:3000) |
+| Staging URL | **UNKNOWN** — Discovery Gap |
+| Production URL | **UNKNOWN** — Discovery Gap |
+
+### Common JQL Queries
+
+```
+# Open stories in BK
+project = BK AND issuetype = Story AND status != Done ORDER BY updated DESC
+
+# Ready for QA
+project = BK AND issuetype = Story AND status = "Ready For QA"
+
+# In Test (QA active)
+project = BK AND issuetype = Story AND status = "In Test"
+
+# Active sprint
+project = BK AND sprint in openSprints()
+
+# Blocked stories (open defect gate)
+project = BK AND issuetype = Story AND status = Blocked
+
+# Open bugs (all non-terminal)
+project = BK AND issuetype = Bug AND status not in (Closed, Rejected, "Cannot Reproduce", Duplicated)
+
+# Shift-left candidates
+project = BK AND issuetype = Story AND status = "Shift Left QA"
+
+# QA-approved (ready for release)
+project = BK AND issuetype = Story AND status = "QA Approved"
+```
+
+### Key Custom Fields (resolved for BK)
+
+| Slug | Custom Field ID | Name |
+|------|----------------|------|
+| `acceptance_criteria` | `customfield_10063` | ✅ Acceptance Criteria (Gherkin) |
+| `acceptance_test_plan` | `customfield_10067` | 🧪 Acceptance Test Plan (ATP) |
+| `acceptance_test_results` | `customfield_10147` | 🧪 Acceptance Test Results (ATR) |
+| `actual_result` | `customfield_10056` | 🐞 Actual Result |
+
+Full catalog: `.agents/jira-fields.json`
+
+### Sync Commands
+
+```bash
+# Single issue (all fields + comments)
+bun run jira:sync-issues get BK-<N> --include-comments
+
+# Active sprint
+bun run jira:sync-issues pull --sprint active
+
+# Epic + stories
+bun run jira:sync-issues pull --epic BK-<EPIC>
+
+# Story only
+bun run jira:sync-issues pull --story BK-<N>
+
+# Validate Jira field setup
+bun run jira:check
+```

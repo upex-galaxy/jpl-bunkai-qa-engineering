@@ -1,0 +1,24 @@
+{
+  "schemaVersion": 7,
+  "templateRepo": "upex-galaxy/agentic-qa-boilerplate",
+  "templateCommit": "8b136080f98ec505229ebf41311d7428db56e01d",
+  "perComponentCommit": {
+    "skills": "8b136080f98ec505229ebf41311d7428db56e01d",
+    "commands": "8b136080f98ec505229ebf41311d7428db56e01d",
+    "scripts": "8b136080f98ec505229ebf41311d7428db56e01d",
+    "docs": "8b136080f98ec505229ebf41311d7428db56e01d",
+    "cli": "8b136080f98ec505229ebf41311d7428db56e01d",
+    "vscode": "8b136080f98ec505229ebf41311d7428db56e01d",
+    "husky": "8b136080f98ec505229ebf41311d7428db56e01d",
+    "agents-docs": "8b136080f98ec505229ebf41311d7428db56e01d",
+    "claude-config": "8b136080f98ec505229ebf41311d7428db56e01d",
+    "tooling": "8b136080f98ec505229ebf41311d7428db56e01d",
+    "env-template": "8b136080f98ec505229ebf41311d7428db56e01d"
+  },
+  "syncedComponents": [],
+  "ignoreFileSync": {},
+  "packageJsonSync": {},
+  "cliVersion": "7.0",
+  "lastSyncedAt": "2026-06-19T14:42:27.994Z",
+  "variableSystemVersion": 1
+}
